@@ -27,6 +27,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
               We will start our service and send extra info about
               network connections
             **/
+            //Here Check Internet Connection
+
+
             boolean hasInternet = isNetworkAvailable(context);
             Intent serviceIntent = new Intent(context, MyTaskService.class);
             serviceIntent.putExtra("hasInternet", hasInternet);

@@ -10,6 +10,10 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
+import android.app.AlarmManager;
+import android.content.Intent;
+import android.app.PendingIntent;
+import android.content.Context;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -40,6 +44,16 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    service();
     SoLoader.init(this, /* native exopackage */ false);
   }
+
+  public void service() {
+          Intent intent = new Intent(getApplicationContext(), MyAlarmReceiver.class);
+          final PendingIntent pIntent = PendingIntent.getBroadcast(this, MyAlarmReceiver.REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+          long firstMillis = System.currentTimeMillis(); //first run of alarm is immediately //
+          int intervalMillis = 1 * 3 * 1000; //3 Second
+          AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+          alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, intervalMillis, pIntent);
+      }
 }
